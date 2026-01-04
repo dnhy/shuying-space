@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&amp;display=swap');
+    </style>
+    <!-- Stronger filter for wilder ink -->
+    <filter id="ink-wash" x="-50%" y="-50%" width="200%" height="200%">
+      <!-- Lower frequency for broader strokes, higher scale for more distortion -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+      <feGaussianBlur stdDeviation="0.8" />
+    </filter>
+  </defs>
+
+  <!-- Main Chinese Text (Vertical Layout) -->
+  <text x="50%" y="35%" font-family="'Liu Jian Mao Cao', 'Ma Shan Zheng', 'Zhi Mang Xing', 'STXingkai', 'Xingkai SC', 'Xingkai', cursive" font-size="130" fill="#000000" text-anchor="middle" dominant-baseline="middle" filter="url(#ink-wash)">
+    疏
+  </text>
+  <text x="50%" y="65%" font-family="'Liu Jian Mao Cao', 'Ma Shan Zheng', 'Zhi Mang Xing', 'STXingkai', 'Xingkai SC', 'Xingkai', cursive" font-size="130" fill="#000000" text-anchor="middle" dominant-baseline="middle" filter="url(#ink-wash)">
+    影
+  </text>
+
+  <!-- English Text (Vertical at bottom right) -->
+  <text x="170" y="310" font-family="'Brush Script MT', 'Zapfino', cursive" font-size="22" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle" style="writing-mode: vertical-rl; opacity: 1;">
+    shuying
+  </text>
+</svg>
