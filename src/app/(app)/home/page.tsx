@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { clsxm } from "@/lib/helper";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AncientStyleMenuButton from "./components/AncientStyleMenuButton";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { div } from "motion/react-client";
+import { Button } from "../../../components/ui/button";
 
 export default function HomePage() {
   const [currIdx, setCurrIdx] = useState(0);
@@ -19,13 +19,42 @@ export default function HomePage() {
 
   const [menuList, setMenuList] = useState<MenuList>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const currIdxRef = useRef(0);
+
+  const updateIndex = (newIdx: number) => {
+    if (newIdx >= 0 && newIdx <= 4 && newIdx !== currIdxRef.current) {
+      currIdxRef.current = newIdx;
+      setCurrIdx(newIdx);
+      setShowMask(newIdx === 0);
+      startAnimation();
+    }
+  };
+
+  const startAnimation = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    setIsAnimating(true);
+    timerRef.current = setTimeout(() => {
+      setIsAnimating(false);
+      timerRef.current = null;
+    }, 1000); // 与CSS动画时间一致
+  };
 
   return (
     <>
-      <div className="h-screen flex flex-col bg-white overflow-hidden">
+      <div className="h-dvh w-full flex flex-col bg-white overflow-hidden">
         {/* <header className="bg-gray-800 text-white p-4">navbar</header> */}
-        <div className="flex flex-1 min-h-0">
-          <aside className="w-32  p-4 border-r border-amber-200">
+        <div className="h-full flex flex-1 min-h-0">
+          <aside
+            className={clsxm(
+              "w-32  p-4  border-amber-200",
+              isOpen ? "border-r" : ""
+            )}
+          >
             <Link
               href="/"
               className={clsxm(
@@ -43,45 +72,50 @@ export default function HomePage() {
               />
             </Link>
 
-            <ul className="mt-72 h-40 flex flex-col justify-start pt-5 z-50">
-              {Array.from({ length: 5 }).map((item, index) => (
-                <li
-                  key={index}
-                  className="w-10 flex justify-center cursor-pointer group mb-1 mx-auto"
-                  onClick={() => {
-                    setCurrIdx(index);
-                  }}
-                >
-                  <div
-                    className={clsxm(
-                      "w-px h-5 bg-gray-300 rounded-xs",
-                      "transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
-                      "group-hover:w-2",
-                      currIdx === index
-                        ? "bg-black h-15 group-hover:w-px duration-1000"
-                        : ""
-                    )}
-                  />
-                </li>
-              ))}
-            </ul>
+            {!isOpen && (
+              <ul className="mt-72 h-40 flex flex-col justify-start pt-5 z-50">
+                {Array.from({ length: 5 }).map((item, index) => (
+                  <li
+                    key={index}
+                    className="w-10 flex justify-center cursor-pointer group mb-1 mx-auto"
+                    onClick={() => {
+                      updateIndex(index);
+                    }}
+                  >
+                    <div
+                      className={clsxm(
+                        "w-px h-5 bg-gray-300 rounded-xs",
+                        "transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
+                        "group-hover:w-2",
+                        currIdx === index
+                          ? "bg-black h-15 group-hover:w-px duration-1000"
+                          : ""
+                      )}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
           </aside>
-
           <main
-            className="flex-1 pt-10 relative text-white "
+            className="flex-1 my-10 relative text-white overflow-hidden rounded-lg"
             onWheel={(e) => {
+              if (isAnimating) {
+                return;
+              }
+
+              const current = currIdxRef.current;
+
               if (e.deltaY > 0) {
-                setCurrIdx(1);
-                setShowMask(false);
+                updateIndex(current + 1);
               } else if (e.deltaY < 0) {
-                setCurrIdx(0);
-                setShowMask(true);
+                updateIndex(current - 1);
               }
             }}
           >
             <div
               className={clsxm(
-                "bg-white/90 w-full h-full absolute top-0 left-0 z-50",
+                "bg-white/90 w-full h-full absolute top-0 left-0 z-7",
                 "transition-transform duration-1000 ease-in-out",
                 showMask ? "translate-y-0" : "-translate-y-full"
               )}
@@ -100,93 +134,38 @@ export default function HomePage() {
                 />
               </Link>
             </div>
-            <article className="prose max-w-none w-full h-full">
-              <h1
-                className={clsxm(
-                  "writing-vertical-rl",
-                  "before:content-[''] before:w-15 before:h-px before:block before:bg-white before:mb-7.5",
-                  "after:content-[''] after:w-15 after:h-px after:block after:bg-white after:mt-7.5",
-                  "text-4xl font-qingke font-black absolute top-[calc((40px+4vw)*1.5)] right-[calc((40px+4vw)*2)] tracking-[20px] text-center flex items-center z-10",
-                  "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
-                  showMask ? "opacity-0" : "opacity-100  delay-1000"
-                )}
-              >
-                当年红月
-              </h1>
-              {/* <p className="absolute">core content...</p> */}
-              <div
-                className={clsxm(
-                  "writing-vertical-rl h-80 absolute z-10 bottom-1/9 left-1/8 leading-9  tracking-wide",
-                  showMask ? "pointer-events-none" : ""
-                )}
-              >
-                <p
-                  className={clsxm(
-                    "writing-vertical-rl",
-                    "text-2xl tracking-wide ml-20 leading-12 font-shufa font-extrabold",
-                    "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
-                    showMask
-                      ? "opacity-0 translate-x-8 delay-0"
-                      : "opacity-100 translate-x-0 delay-1300"
-                  )}
-                >
-                  原先使用 ，当某个条目高度变大时原先使用 ，当某个条目高度变大时
-                </p>
-                <p
-                  className={clsxm(
-                    "writing-vertical-rl font-shufa font-bold text-lg",
-                    "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
-                    showMask
-                      ? "opacity-0 translate-x-8 delay-0"
-                      : "opacity-100 translate-x-0 delay-1200"
-                  )}
-                >
-                  改为
-                  justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
-                  justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
-                  justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
-                  justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。
-                </p>
-                <div
-                  className={clsxm(
-                    "writing-vertical-rl font-shufa font-bold text-lg",
-                    "border-2 text-center mr-20  tracking-[4px] rounded-sm",
-                    "transition-opacity duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
-                    "hover:bg-black hover:text-white",
-                    showMask
-                      ? "opacity-0 translate-x-0 delay-0"
-                      : "opacity-100 translate-x-0 delay-2000"
-                  )}
-                >
-                  了解详情
-                </div>
-              </div>
-              <div className="w-full h-full rounded-lg bg-black ">
-                <video
-                  className="w-full h-full object-cover rounded-lg opacity-80 z-0"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline // iOS必须！
-                  preload="auto" // 或 "metadata"
-                >
-                  <source src="/home/videos/01.mp4" type="video/mp4" />
-                  {/* <source src="/videos/background.webm" type="video/webm" /> */}
-                  {/* 备用图片 */}
-                  {/* <img src="/images/fallback.jpg" alt="背景" /> */}
-                </video>
-              </div>
-            </article>
+
+            {Array.from({ length: 6 }).map((item, index) => {
+              return (
+                <PageScrollItem
+                  key={index}
+                  currIdx={currIdx}
+                  markIdx={index + 1}
+                  zIndex={6 - index}
+                  scrollPosition={
+                    index === 0
+                      ? { top: "0", middle: "0", bottom: "-1179" }
+                      : { top: "589.5", middle: "0", bottom: "-1179" }
+                  }
+                />
+              );
+            })}
+          </main>
+          {/* {!isOpen && (
             <div
               className={clsxm(
                 "before:content-[''] before:w-full before:h-full before:bg-white before:absolute before:top-0 before:left-0 before:origin-top before:animate-scrollIndicator",
                 "transition-opacity duration-600 ease-[cubic-bezier(0.65,0,0.35,1)] z-999 overflow-hidden",
-                "w-px h-20 bg-white/30 mix-blend-exclusion absolute left-1/2 -translate-x-1/2  -translate-y-1/2"
+                "w-px h-20 bg-white/30 mix-blend-exclusion absolute -bottom-8.5 left-1/2 -translate-x-1/2  -translate-y-1/2"
               )}
             ></div>
-          </main>
-
-          <aside className="w-32 flex flex-col justify-between items-center py-5 border-l border-amber-200">
+          )} */}
+          <aside
+            className={clsxm(
+              "w-32 flex flex-col justify-between items-center py-5 border-amber-200",
+              isOpen ? "border-l" : ""
+            )}
+          >
             <AncientStyleMenuButton isOpen={isOpen} onBtnToggle={setIsOpen} />
             <div className={clsxm("flex flex-col items-center gap-6 pb-8")}>
               {/* <div
@@ -238,13 +217,127 @@ export default function HomePage() {
             <BottomInfo data={undefined} />
           </div>
         </div>
-        <footer className="bg-white text-black p-4 text-center h-10 shrink-0 ">
-          {/* foot info */}
-        </footer>
+        {/* <footer className="bg-white text-black p-4 text-center h-10 shrink-0 ">
+        </footer> */}
       </div>
     </>
   );
 }
+
+type ScrollPosition = {
+  top: string;
+  middle: string;
+  bottom: string;
+};
+
+const PageScrollItem: React.FC<
+  React.PropsWithChildren & {
+    currIdx: number;
+    markIdx?: number;
+    scrollPosition?: ScrollPosition;
+    zIndex: number;
+  }
+> = ({
+  currIdx,
+  markIdx = 1,
+  scrollPosition = { top: "589.5", middle: "0", bottom: "-1179" },
+  zIndex,
+}) => {
+  const showMask = currIdx === markIdx;
+  const transformValue =
+    currIdx < markIdx
+      ? `translateY(${scrollPosition.top}px)`
+      : currIdx > markIdx
+      ? `translateY(${scrollPosition.bottom}px)`
+      : `translateY(${scrollPosition.middle}px)`;
+
+  return (
+    <article
+      className={clsxm(
+        "prose max-w-none w-full h-full",
+        "transition-transform duration-1000 ease-in-out",
+        "absolute top-0 left-0"
+      )}
+      style={{ zIndex, transform: transformValue }}
+    >
+      <h1
+        className={clsxm(
+          "writing-vertical-rl",
+          "before:content-[''] before:w-15 before:h-px before:block before:bg-white before:mb-7.5",
+          "after:content-[''] after:w-15 after:h-px after:block after:bg-white after:mt-7.5",
+          "text-4xl font-qingke font-black absolute top-[calc((40px+4vw)*1.5)] right-[calc((40px+4vw)*2)] tracking-[20px] text-center flex items-center z-10",
+          "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
+          showMask ? "opacity-100  delay-1000" : "opacity-0"
+        )}
+      >
+        当年红月
+      </h1>
+      {/* <p className="absolute">core content...</p> */}
+      <div
+        className={clsxm(
+          "writing-vertical-rl h-80 absolute z-10 bottom-1/9 left-1/8 leading-9  tracking-wide",
+          showMask ? "" : "pointer-events-none"
+        )}
+      >
+        <p
+          className={clsxm(
+            "writing-vertical-rl",
+            "text-2xl tracking-wide ml-20 leading-12 font-shufa font-extrabold",
+            "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
+            showMask
+              ? "opacity-100 translate-x-0 delay-1300"
+              : "opacity-0 translate-x-8 delay-0"
+          )}
+        >
+          原先使用 ，当某个条目高度变大时原先使用 ，当某个条目高度变大时
+        </p>
+        <p
+          className={clsxm(
+            "writing-vertical-rl font-shufa font-bold text-lg",
+            "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
+            showMask
+              ? "opacity-100 translate-x-0 delay-1200"
+              : "opacity-0 translate-x-8 delay-0"
+          )}
+        >
+          改为
+          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
+          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
+          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
+          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。
+        </p>
+        <div
+          className={clsxm(
+            "writing-vertical-rl font-shufa font-bold text-lg",
+            "border-2 text-center mr-20  tracking-[4px] rounded-sm",
+            "transition-opacity duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
+            "hover:bg-black hover:text-white",
+            showMask
+              ? "opacity-100 translate-x-0 delay-2000"
+              : "opacity-0 translate-x-0 delay-0"
+          )}
+        >
+          了解详情
+        </div>
+      </div>
+      <div className="w-full h-full rounded-lg bg-black ">
+        <video
+          className="w-full h-full object-cover rounded-lg opacity-80 z-0"
+          autoPlay
+          muted
+          loop
+          playsInline // iOS必须！
+          preload="auto" // 或 "metadata"
+        >
+          <source src="/home/videos/01.mp4" type="video/mp4" />
+          {/* <source src="/videos/background.webm" type="video/webm" /> */}
+          {/* 备用图片 */}
+          {/* <img src="/images/fallback.jpg" alt="背景" /> */}
+        </video>
+      </div>
+    </article>
+  );
+};
 
 const ImageList: React.FC<
   React.PropsWithChildren & {

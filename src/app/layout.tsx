@@ -6,7 +6,7 @@ import {
   ZCOOL_QingKe_HuangYou,
   ZCOOL_XiaoWei,
 } from "next/font/google";
-import "./globals.css";
+import "../styles/index.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
