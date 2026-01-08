@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@egoist/tailwindcss-icons": "^1.9.0",
+    "@iconify-json/mingcute": "^1.2.6",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/themes": "^3.2.1",

@@ -1,9 +1,24 @@
+@config "../../tailwind.config.ts";
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
 /* @import "tw-animate-css"; */
-
 @custom-variant dark (&:is(.dark *));
+/* @plugin "@egoist/tailwindcss-icons"; */
+
+@font-face {
+  font-family: "Shoujin";
+  src: url("/fonts/shoujin.ttf") format("truetype"), local("FZShouJinShu-S10"),
+    local("ShouJinTi"), local("STKaiti"), local("KaiTi");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "WangXizhiXingShu";
+  src: url("/fonts/wangxizhi.ttf") format("opentype"), local("WangXizhi"),
+    local("XingShu"), local("STXingkai"), local("KaiTi");
+  font-display: swap;
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -16,6 +31,8 @@
   --font-libian: "STLiti", "LiSu", serif;
   --font-xingshu: "STXingkai", "KaiTi", serif;
   --font-yuanti: "FZShuTi", "STKaiti", serif;
+  --font-shoujin: "Shoujin", "STKaiti", serif;
+  --font-wangxizhi: "WangXizhiXingShu", "STXingkai", "KaiTi", serif;
 
   --animate-scrollIndicator: scrollIndicatorAnimation 3s infinite
     cubic-bezier(0.83, 0, 0.17, 1);
@@ -120,6 +137,14 @@
 
 @utility writing-vertical-lr {
   writing-mode: vertical-lr;
+}
+
+@utility font-shoujin {
+  font-family: var(--font-shoujin);
+}
+
+@utility font-wangxizhi {
+  font-family: var(--font-wangxizhi);
 }
 
 ::selection {

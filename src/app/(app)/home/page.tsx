@@ -6,7 +6,6 @@ import { clsxm } from "@/lib/helper";
 import { useRef, useState } from "react";
 import AncientStyleMenuButton from "./components/AncientStyleMenuButton";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { Button } from "../../../components/ui/button";
 
 export default function HomePage() {
   const [currIdx, setCurrIdx] = useState(0);
@@ -22,6 +21,7 @@ export default function HomePage() {
   const [isAnimating, setIsAnimating] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const currIdxRef = useRef(0);
+  const movies = ["/home/videos/01.mp4", "/home/videos/onsen.mp4"];
 
   const updateIndex = (newIdx: number) => {
     if (newIdx >= 0 && newIdx <= 4 && newIdx !== currIdxRef.current) {
@@ -44,23 +44,86 @@ export default function HomePage() {
     }, 1000); // 与CSS动画时间一致
   };
 
+  const schemaComps = [RecommendToday, RecentArticleGroups];
+
   return (
-    <>
-      <div className="h-dvh w-full flex flex-col bg-white overflow-hidden">
-        {/* <header className="bg-gray-800 text-white p-4">navbar</header> */}
-        <div className="h-full flex flex-1 min-h-0">
-          <aside
+    <div className="h-dvh w-full flex flex-col bg-white overflow-hidden">
+      {/* <header className="bg-gray-800 text-white p-4">navbar</header> */}
+      <div className="h-full flex flex-1 min-h-0">
+        <aside
+          className={clsxm(
+            "w-32  p-4  border-amber-200",
+            isOpen ? "border-r" : ""
+          )}
+        >
+          <Link
+            href="/"
             className={clsxm(
-              "w-32  p-4  border-amber-200",
-              isOpen ? "border-r" : ""
+              "border-2  rounded-sm border-gray-100 inline-block transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] translate-x-4 translate-y-2",
+              showMask ? "opacity-0" : "opacity-100"
+            )}
+          >
+            <Image
+              src="/logo/logo-shuying-black.svg"
+              alt="疏影轩"
+              width={320}
+              height={240}
+              priority
+              className="h-30 w-auto"
+            />
+          </Link>
+
+          {!isOpen && (
+            <ul className="mt-72 h-40 flex flex-col justify-start pt-5 z-50">
+              {Array.from({ length: 5 }).map((item, index) => (
+                <li
+                  key={index}
+                  className="w-10 flex justify-center cursor-pointer group mb-1 mx-auto"
+                  onClick={() => {
+                    updateIndex(index);
+                  }}
+                >
+                  <div
+                    className={clsxm(
+                      "w-px h-5 bg-gray-300 rounded-xs",
+                      "transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
+                      "group-hover:w-2",
+                      currIdx === index
+                        ? "bg-black h-15 group-hover:w-px duration-1000"
+                        : ""
+                    )}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
+        <main
+          className="flex-1 my-10 relative text-white overflow-hidden rounded-lg"
+          onWheel={(e) => {
+            if (isAnimating) {
+              return;
+            }
+
+            const current = currIdxRef.current;
+
+            if (e.deltaY > 0) {
+              updateIndex(current + 1);
+            } else if (e.deltaY < 0) {
+              updateIndex(current - 1);
+            }
+          }}
+        >
+          <div
+            className={clsxm(
+              "bg-white/90 w-full h-full absolute top-0 left-0 z-7",
+              "transition-transform duration-1000 ease-in-out",
+              showMask ? "translate-y-0" : "-translate-y-full"
             )}
           >
             <Link
               href="/"
-              className={clsxm(
-                "border-2  rounded-sm border-gray-100 inline-block transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] translate-x-4 translate-y-2",
-                showMask ? "opacity-0" : "opacity-100"
-              )}
+              className="inline-block absolute top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2"
             >
               <Image
                 src="/logo/logo-shuying-black.svg"
@@ -71,87 +134,27 @@ export default function HomePage() {
                 className="h-30 w-auto"
               />
             </Link>
+          </div>
 
-            {!isOpen && (
-              <ul className="mt-72 h-40 flex flex-col justify-start pt-5 z-50">
-                {Array.from({ length: 5 }).map((item, index) => (
-                  <li
-                    key={index}
-                    className="w-10 flex justify-center cursor-pointer group mb-1 mx-auto"
-                    onClick={() => {
-                      updateIndex(index);
-                    }}
-                  >
-                    <div
-                      className={clsxm(
-                        "w-px h-5 bg-gray-300 rounded-xs",
-                        "transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
-                        "group-hover:w-2",
-                        currIdx === index
-                          ? "bg-black h-15 group-hover:w-px duration-1000"
-                          : ""
-                      )}
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </aside>
-          <main
-            className="flex-1 my-10 relative text-white overflow-hidden rounded-lg"
-            onWheel={(e) => {
-              if (isAnimating) {
-                return;
-              }
-
-              const current = currIdxRef.current;
-
-              if (e.deltaY > 0) {
-                updateIndex(current + 1);
-              } else if (e.deltaY < 0) {
-                updateIndex(current - 1);
-              }
-            }}
-          >
-            <div
-              className={clsxm(
-                "bg-white/90 w-full h-full absolute top-0 left-0 z-7",
-                "transition-transform duration-1000 ease-in-out",
-                showMask ? "translate-y-0" : "-translate-y-full"
-              )}
-            >
-              <Link
-                href="/"
-                className="inline-block absolute top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2"
-              >
-                <Image
-                  src="/logo/logo-shuying-black.svg"
-                  alt="疏影轩"
-                  width={320}
-                  height={240}
-                  priority
-                  className="h-30 w-auto"
-                />
-              </Link>
-            </div>
-
-            {Array.from({ length: 6 }).map((item, index) => {
-              return (
-                <PageScrollItem
-                  key={index}
-                  currIdx={currIdx}
-                  markIdx={index + 1}
-                  zIndex={6 - index}
-                  scrollPosition={
-                    index === 0
-                      ? { top: "0", middle: "0", bottom: "-1179" }
-                      : { top: "589.5", middle: "0", bottom: "-1179" }
-                  }
-                />
-              );
-            })}
-          </main>
-          {/* {!isOpen && (
+          {schemaComps.map((component, index) => {
+            return (
+              <PageScrollItem
+                key={index}
+                movie={movies[index]}
+                currIdx={currIdx}
+                markIdx={index + 1}
+                zIndex={2 - index}
+                scrollPosition={
+                  index === 0
+                    ? { top: "0", middle: "0", bottom: "-1179" }
+                    : { top: "589.5", middle: "0", bottom: "-1179" }
+                }
+                Schema={component}
+              />
+            );
+          })}
+        </main>
+        {/* {!isOpen && (
             <div
               className={clsxm(
                 "before:content-[''] before:w-full before:h-full before:bg-white before:absolute before:top-0 before:left-0 before:origin-top before:animate-scrollIndicator",
@@ -160,15 +163,15 @@ export default function HomePage() {
               )}
             ></div>
           )} */}
-          <aside
-            className={clsxm(
-              "w-32 flex flex-col justify-between items-center py-5 border-amber-200",
-              isOpen ? "border-l" : ""
-            )}
-          >
-            <AncientStyleMenuButton isOpen={isOpen} onBtnToggle={setIsOpen} />
-            <div className={clsxm("flex flex-col items-center gap-6 pb-8")}>
-              {/* <div
+        <aside
+          className={clsxm(
+            "w-32 flex flex-col justify-between items-center py-5 border-amber-200",
+            isOpen ? "border-l" : ""
+          )}
+        >
+          <AncientStyleMenuButton isOpen={isOpen} onBtnToggle={setIsOpen} />
+          <div className={clsxm("flex flex-col items-center gap-6 pb-8")}>
+            {/* <div
                 className={clsxm(
                   "font-shufa font-bold text-lg text-black",
                   "border-2 border-black text-center tracking-[4px] rounded-sm px-1",
@@ -179,48 +182,47 @@ export default function HomePage() {
                 联系
               </div> */}
 
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black hover:text-gray-600 transition-colors duration-300"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black hover:text-gray-600 transition-colors duration-300"
+            >
+              <GithubIcon className="w-4 h-4" />
+            </a>
 
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black hover:text-gray-600 transition-colors duration-300"
-              >
-                <TwitterIcon className="w-4 h-4" />
-              </a>
-            </div>
-          </aside>
-        </div>
-
-        <div
-          className={clsxm(
-            "w-[calc(100%-256px)] ml-32 h-screen flex fixed top-0 bg-white z-55",
-            "transition-opacity duration-600 ease-[cubic-bezier(0.65,0,0.35,1)] overflow-hidden",
-            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}
-        >
-          <ImageList imgs={imgs} />
-          <div className="flex flex-col flex-1 h-full py-20 min-w-0 pr-20">
-            <VerticalMenu menuList={menuList} />
-            <div
-              className="w-[calc(100%-130px)] h-2 mt-5 mb-10 mx-auto bg-contain opacity-70 shrink-0"
-              style={{ backgroundImage: 'url("/svg/icn_rhombus.svg")' }}
-            ></div>
-            <BottomInfo data={undefined} />
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black hover:text-gray-600 transition-colors duration-300"
+            >
+              <TwitterIcon className="w-4 h-4" />
+            </a>
           </div>
-        </div>
-        {/* <footer className="bg-white text-black p-4 text-center h-10 shrink-0 ">
-        </footer> */}
+        </aside>
       </div>
-    </>
+
+      <div
+        className={clsxm(
+          "w-[calc(100%-256px)] ml-32 h-screen flex fixed top-0 bg-white z-55",
+          "transition-opacity duration-600 ease-[cubic-bezier(0.65,0,0.35,1)] overflow-hidden",
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+      >
+        <ImageList imgs={imgs} />
+        <div className="flex flex-col flex-1 h-full py-20 min-w-0 pr-20">
+          <VerticalMenu menuList={menuList} />
+          <div
+            className="w-[calc(100%-130px)] h-2 mt-5 mb-10 mx-auto bg-contain opacity-70 shrink-0"
+            style={{ backgroundImage: 'url("/svg/icn_rhombus.svg")' }}
+          ></div>
+          <BottomInfo data={undefined} />
+        </div>
+      </div>
+      {/* <footer className="bg-white text-black p-4 text-center h-10 shrink-0 ">
+        </footer> */}
+    </div>
   );
 }
 
@@ -232,16 +234,20 @@ type ScrollPosition = {
 
 const PageScrollItem: React.FC<
   React.PropsWithChildren & {
+    movie: string;
     currIdx: number;
     markIdx?: number;
     scrollPosition?: ScrollPosition;
     zIndex: number;
+    Schema: SchemaCompType;
   }
 > = ({
+  movie,
   currIdx,
   markIdx = 1,
   scrollPosition = { top: "589.5", middle: "0", bottom: "-1179" },
   zIndex,
+  Schema,
 }) => {
   const showMask = currIdx === markIdx;
   const transformValue =
@@ -260,19 +266,47 @@ const PageScrollItem: React.FC<
       )}
       style={{ zIndex, transform: transformValue }}
     >
+      <div className="w-full h-full rounded-lg bg-black ">
+        <Schema showMask={showMask} />
+        <video
+          className="w-full h-full object-cover rounded-lg opacity-80 z-0"
+          autoPlay
+          muted
+          loop
+          playsInline // iOS必须！
+          preload="auto" // 或 "metadata"
+        >
+          <source src={movie} type="video/mp4" />
+          {/* <source src="/videos/background.webm" type="video/webm" /> */}
+          {/* 备用图片 */}
+          {/* <img src="/images/fallback.jpg" alt="背景" /> */}
+        </video>
+      </div>
+    </article>
+  );
+};
+
+type SchemaCompType = React.FC<
+  React.PropsWithChildren & {
+    showMask: boolean;
+  }
+>;
+
+const RecommendToday: SchemaCompType = ({ showMask }) => {
+  return (
+    <>
       <h1
         className={clsxm(
           "writing-vertical-rl",
           "before:content-[''] before:w-15 before:h-px before:block before:bg-white before:mb-7.5",
           "after:content-[''] after:w-15 after:h-px after:block after:bg-white after:mt-7.5",
-          "text-4xl font-qingke font-black absolute top-[calc((40px+4vw)*1.5)] right-[calc((40px+4vw)*2)] tracking-[20px] text-center flex items-center z-10",
+          "text-4xl font-shufa font-black absolute top-[calc((40px+4vw)*1.5)] right-[calc((40px+4vw)*2)] tracking-[20px] text-center flex items-center z-10",
           "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
           showMask ? "opacity-100  delay-1000" : "opacity-0"
         )}
       >
         当年红月
       </h1>
-      {/* <p className="absolute">core content...</p> */}
       <div
         className={clsxm(
           "writing-vertical-rl h-80 absolute z-10 bottom-1/9 left-1/8 leading-9  tracking-wide",
@@ -282,29 +316,27 @@ const PageScrollItem: React.FC<
         <p
           className={clsxm(
             "writing-vertical-rl",
-            "text-2xl tracking-wide ml-20 leading-12 font-shufa font-extrabold",
+            "text-2xl tracking-wide ml-20 leading-12 font-xingshu font-extrabold",
             "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
             showMask
               ? "opacity-100 translate-x-0 delay-1300"
               : "opacity-0 translate-x-8 delay-0"
           )}
         >
-          原先使用 ，当某个条目高度变大时原先使用 ，当某个条目高度变大时
+          疏影横渡水清浅 <br />
+          暗香浮动月黄昏
         </p>
         <p
           className={clsxm(
-            "writing-vertical-rl font-shufa font-bold text-lg",
+            "writing-vertical-rl font-shoujin font-bold text-lg leading-10",
             "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
             showMask
               ? "opacity-100 translate-x-0 delay-1200"
               : "opacity-0 translate-x-8 delay-0"
           )}
         >
-          改为
-          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
-          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
-          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。改为
-          justify-start后，列表顶部固定。当条目高度变大时，只会向下推挤其他元素，从而实现“从上到下”的生长动画。
+          十五年中，这古园的形体被不能理解它的人肆意雕琢，幸好有些东西是任谁也不能改变它的。譬如祭坛石门中的落日，寂静的光辉平铺的一刻，地上的每一个坎坷都被映照得灿烂；譬如在园中最为落寞的时间，一群雨燕便出来高歌，把天地都叫喊得苍凉；譬如冬天雪地上孩子的脚印，总让人猜想他们是谁，曾在哪儿做过些什么，然后又都到哪儿去了；譬如那些苍黑的古柏，你忧郁的时候它们镇静地站在那儿，你欣喜的时候它们依然镇静地站在那儿，它们没日没夜地站在那儿，从你没有出生一直站到这个世界上又没了你的时候；譬如暴雨骤临园中，激起一阵阵灼烈而清纯的草木和泥土的气味，让人想起无数个夏天的事件；譬如秋风忽至，再有一场早霜，落叶或飘摇歌舞或坦然安卧，满园中播散着熨
+          帖舒服，舒适。而微苦的味道。味道是最说不清楚的，味道不能写只能闻，要你身临其境去闻才能明了。味道甚至是难于记忆的，只有你又闻到它你才能记起它的全部情感和意蕴。所以我常常要到那园子里去。
         </p>
         <div
           className={clsxm(
@@ -320,22 +352,43 @@ const PageScrollItem: React.FC<
           了解详情
         </div>
       </div>
-      <div className="w-full h-full rounded-lg bg-black ">
-        <video
-          className="w-full h-full object-cover rounded-lg opacity-80 z-0"
-          autoPlay
-          muted
-          loop
-          playsInline // iOS必须！
-          preload="auto" // 或 "metadata"
-        >
-          <source src="/home/videos/01.mp4" type="video/mp4" />
-          {/* <source src="/videos/background.webm" type="video/webm" /> */}
-          {/* 备用图片 */}
-          {/* <img src="/images/fallback.jpg" alt="背景" /> */}
-        </video>
+    </>
+  );
+};
+
+const RecentArticleGroups: SchemaCompType = () => {
+  return (
+    <>
+      <div className="absolute ">
+        <div>
+          <section>
+            <h2></h2>
+            <ul>
+              <li>111</li>
+              <li>111</li>
+              <li>111</li>
+            </ul>
+            <a href="">
+              <i className="i-mingcute-arrow-right-circle-line" />
+              <span className="ml-2">还有更多</span>
+            </a>
+            <hr />
+            <h2></h2>
+            <ul>
+              <li>333</li>
+              <li>2323</li>
+              <li>weew</li>
+              <li>233223</li>
+            </ul>
+            <a href="">
+              <i className="i-mingcute-arrow-right-circle-line" />
+              <span className="ml-2">还有更多</span>
+            </a>
+          </section>
+        </div>
+        <div></div>
       </div>
-    </article>
+    </>
   );
 };
 
