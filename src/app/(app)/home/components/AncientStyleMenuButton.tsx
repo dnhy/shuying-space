@@ -1,6 +1,6 @@
-import { motion } from "motion/react";
-import { useState } from "react";
-import Image from "next/image";
+import { motion } from 'motion/react';
+import { useState } from 'react';
+import Image from 'next/image';
 
 const CloudParticle = ({
   delay,
@@ -14,7 +14,7 @@ const CloudParticle = ({
   scale: number;
 }) => (
   <motion.div
-    className="absolute w-12 h-8 text-stone-300/60 pointer-events-none"
+    className="pointer-events-none absolute h-8 w-12 text-stone-300/60"
     initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
     variants={{
       open: {
@@ -25,14 +25,14 @@ const CloudParticle = ({
         transition: {
           duration: 1.2,
           times: [0, 0.2, 1],
-          ease: "easeOut",
+          ease: 'easeOut',
           delay,
         },
       },
       initial: { opacity: 0, scale: 0, x: 0, y: 0 },
     }}
   >
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+    <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
       <path d="M19.36,10.04C18.67,6.59,15.64,4,12,4C9.11,4,6.6,5.64,5.35,8.04C2.34,8.36,0,10.91,0,14c0,3.31,2.69,6,6,6h13c2.76,0,5-2.24,5-5C24,12.36,21.95,10.22,19.36,10.04z" />
     </svg>
   </motion.div>
@@ -48,14 +48,14 @@ const AncientStyleMenuButton: React.FC<
     <div className="relative flex items-center justify-center p-8 pt-0">
       <motion.button
         onClick={() => onBtnToggle(!isOpen)}
-        className="relative w-22 h-32 flex items-center justify-center cursor-pointer outline-none"
+        className="relative flex h-32 w-22 cursor-pointer items-center justify-center outline-none"
         initial="initial"
-        animate={isOpen ? "open" : "initial"}
+        animate={isOpen ? 'open' : 'initial'}
         whileHover="hover"
         whileTap="tap"
       >
         {/* 散开的小云 (Particles) */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
           <CloudParticle delay={0} x={-60} y={-40} scale={1} />
           <CloudParticle delay={0.05} x={60} y={-30} scale={0.8} />
           <CloudParticle delay={0.1} x={-40} y={50} scale={0.9} />
@@ -65,29 +65,29 @@ const AncientStyleMenuButton: React.FC<
 
         {/* 祥云层 (Cloud Layer) */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center z-10"
+          className="absolute inset-0 z-10 flex items-center justify-center"
           variants={{
             initial: {
               opacity: 1,
               scale: 1,
-              filter: "blur(0px)",
+              filter: 'blur(0px)',
               transition: { duration: 0.5 },
             },
             open: {
               opacity: 0,
               scale: 0.9,
-              filter: "blur(2px)",
+              filter: 'blur(2px)',
               transition: { duration: 0.3 },
             },
           }}
         >
           {/* 祥云 Image */}
           <motion.div
-            className="relative w-48 h-32 hover:drop-shadow-lg flex items-center justify-center"
+            className="relative flex h-32 w-48 items-center justify-center hover:drop-shadow-lg"
             variants={{
               hover: {
                 rotate: [0, -6, 6, -6, 6, 0],
-                transition: { duration: 0.5, ease: "easeInOut" },
+                transition: { duration: 0.5, ease: 'easeInOut' },
               },
             }}
           >
@@ -96,7 +96,7 @@ const AncientStyleMenuButton: React.FC<
               height={20}
               src="/home/images/cloud.png"
               alt="祥云"
-              className="w-full h-full object-contain opacity-90"
+              className="h-full w-full object-contain opacity-90"
             />
 
             {/* 文字 */}
@@ -110,7 +110,7 @@ const AncientStyleMenuButton: React.FC<
 
         {/* 梅花层 (Plum Blossom Layer) */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+          className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center"
           variants={{
             initial: {
               opacity: 0,
@@ -122,12 +122,12 @@ const AncientStyleMenuButton: React.FC<
               opacity: 1,
               scale: 1,
               rotate: 0,
-              transition: { duration: 0.6, delay: 0.2, type: "spring" },
+              transition: { duration: 0.6, delay: 0.2, type: 'spring' },
             },
           }}
         >
-          <div className="relative w-48 h-48">
-            <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-xl">
+          <div className="relative h-48 w-48">
+            <svg viewBox="0 0 200 200" className="h-full w-full drop-shadow-xl">
               <defs>
                 <radialGradient
                   id="petalGradient"
@@ -148,8 +148,8 @@ const AncientStyleMenuButton: React.FC<
                 animate={
                   isOpen ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -90 }
                 }
-                transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
-                style={{ transformOrigin: "100px 100px" }}
+                transition={{ duration: 0.8, type: 'spring', bounce: 0.4 }}
+                style={{ transformOrigin: '100px 100px' }}
               >
                 <svg
                   t="1767461702966"
@@ -222,8 +222,8 @@ const AncientStyleMenuButton: React.FC<
 
             {/* 诗句/文字 */}
             <motion.div
-              className="absolute top-8 -left-3 text-stone-800 font-xiaowei text-sm tracking-widest"
-              style={{ writingMode: "vertical-rl" }}
+              className="font-xiaowei absolute top-8 -left-3 text-sm tracking-widest text-stone-800"
+              style={{ writingMode: 'vertical-rl' }}
               initial={{ opacity: 0 }}
               animate={isOpen ? { opacity: 1 } : { opacity: 0 }}
               transition={{ delay: 1, duration: 1 }}

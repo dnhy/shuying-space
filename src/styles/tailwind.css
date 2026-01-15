@@ -1,99 +1,225 @@
-@config "../../tailwind.config.ts";
-@import "tailwindcss";
+@config '../../tailwind.config.ts';
+@import 'tailwindcss';
 
-@plugin "tailwindcss-animate";
+@plugin 'tailwindcss-animate';
+@plugin 'daisyui' {
+  logs: false;
+  themes:
+    light --default,
+    dark --prefersdark;
+}
+@plugin 'daisyui/theme' {
+  name: 'light';
+  default: true;
+  color-scheme: light;
+
+  --color-base-100: #ffffff;
+  --color-base-200: #f2f2f7;
+  --color-base-300: #e5e5ea;
+  --color-base-content: #000000;
+
+  --color-primary: #33a6b8;
+  --color-primary-content: #fdfdfd;
+
+  --color-secondary: #a8d8b9;
+  --color-secondary-content: #10251f;
+
+  --color-accent: #33a6b8;
+  --color-accent-content: #fafafa;
+
+  --color-neutral: #c7c7cc;
+  --color-neutral-content: #1c1c1e;
+
+  --color-info: #007aff;
+  --color-info-content: #f4f7ff;
+
+  --color-success: #34c759;
+  --color-success-content: #08240f;
+
+  --color-warning: #ff9500;
+  --color-warning-content: #291600;
+
+  --color-error: #ff3b30;
+  --color-error-content: #360300;
+
+  --rounded-btn: 1.9rem;
+  --tab-border: 2px;
+  --tab-radius: 0.5rem;
+
+  --p: #33a6b8;
+  --pc: #fdfdfd;
+  --s: #a8d8b9;
+  --sc: #10251f;
+  --a: var(--color-accent);
+  --ac: var(--color-accent-content);
+  --n: #c7c7cc;
+  --nc: #1c1c1e;
+  --b1: #ffffff;
+  --b2: #f2f2f7;
+  --b3: #f7f8fb;
+  --bc: #000000;
+  --in: #007aff;
+  --su: #34c759;
+  --wa: #ff9500;
+  --er: #ff3b30;
+}
+@plugin 'daisyui/theme' {
+  name: 'dark';
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #1c1c1e;
+  --color-base-200: #2c2c2e;
+  --color-base-300: #3a3a3c;
+  --color-base-content: #ffffff;
+
+  --color-primary: #f596aa;
+  --color-primary-content: #1c1c1e;
+
+  --color-secondary: #fb966e;
+  --color-secondary-content: #1c1c1e;
+
+  --color-accent: #f596aa;
+  --color-accent-content: #1c1c1e;
+
+  --color-neutral: #48484a;
+  --color-neutral-content: #f5f5f7;
+
+  --color-info: #0a84ff;
+  --color-info-content: #e5f0ff;
+
+  --color-success: #30d158;
+  --color-success-content: #011b0f;
+
+  --color-warning: #ff9f0a;
+  --color-warning-content: #1c0d00;
+
+  --color-error: #ff453a;
+  --color-error-content: #2a0401;
+
+  --rounded-btn: 1.9rem;
+  --tab-border: 2px;
+  --tab-radius: 0.5rem;
+
+  --p: #f596aa;
+  --pc: #1c1c1e;
+  --s: #fb966e;
+  --sc: #1c1c1e;
+  --a: var(--color-accent);
+  --ac: var(--color-accent-content);
+  --n: #48484a;
+  --nc: #f5f5f7;
+  --b1: #1c1c1e;
+  --b2: #2c2c2e;
+  --b3: #3a3a3c;
+  --bc: #ffffff;
+  --in: #0a84ff;
+  --su: #30d158;
+  --wa: #ff9f0a;
+  --er: #ff453a;
+}
 /* @import "tw-animate-css"; */
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *, [data-theme='dark'] *));
 /* @plugin "@egoist/tailwindcss-icons"; */
 
 @font-face {
-  font-family: "Shoujin";
-  src: url("/fonts/shoujin.ttf") format("truetype"), local("FZShouJinShu-S10"),
-    local("ShouJinTi"), local("STKaiti"), local("KaiTi");
+  font-family: 'Shoujin';
+  src:
+    url('/fonts/shoujin.ttf') format('truetype'),
+    local('FZShouJinShu-S10'),
+    local('ShouJinTi'),
+    local('STKaiti'),
+    local('KaiTi');
   font-display: swap;
 }
 
 @font-face {
-  font-family: "WangXizhiXingShu";
-  src: url("/fonts/wangxizhi.ttf") format("opentype"), local("WangXizhi"),
-    local("XingShu"), local("STXingkai"), local("KaiTi");
+  font-family: 'WangXizhiXingShu';
+  src:
+    url('/fonts/wangxizhi.ttf') format('opentype'),
+    local('WangXizhi'),
+    local('XingShu'),
+    local('STXingkai'),
+    local('KaiTi');
   font-display: swap;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --radius: 0.625rem;
+
+  --color-background: var(--color-base-100);
+  --color-foreground: var(--color-base-content);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-shufa: var(--font-ma-shan-zheng), cursive;
   --font-qingke: var(--font-zcool-qingke-huangyou), cursive;
   --font-xiaowei: var(--font-zcool-xiaowei), serif;
-  --font-libian: "STLiti", "LiSu", serif;
-  --font-xingshu: "STXingkai", "KaiTi", serif;
-  --font-yuanti: "FZShuTi", "STKaiti", serif;
-  --font-shoujin: "Shoujin", "STKaiti", serif;
-  --font-wangxizhi: "WangXizhiXingShu", "STXingkai", "KaiTi", serif;
+  --font-libian: 'STLiti', 'LiSu', serif;
+  --font-xingshu: 'STXingkai', 'KaiTi', serif;
+  --font-yuanti: 'FZShuTi', 'STKaiti', serif;
+  --font-shoujin: 'Shoujin', 'STKaiti', serif;
+  --font-wangxizhi: 'WangXizhiXingShu', 'STXingkai', 'KaiTi', serif;
 
   --animate-scrollIndicator: scrollIndicatorAnimation 3s infinite
     cubic-bezier(0.83, 0, 0.17, 1);
 
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-ring: var(--n);
 
-  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-border: var(--color-base-300);
 
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accssddent-foreground: var(--ac);
 
-  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accssddent: var(--a);
 
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary-foreground: var(--pc);
 
-  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary: var(--p);
 
-  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-foreground: var(--color-base-content);
 
-  --color-sidebar: var(--sidebar);
+  --color-sidebar: var(--color-base-100);
 
-  --color-chart-5: var(--chart-5);
+  --color-chart-5: var(--in);
 
-  --color-chart-4: var(--chart-4);
+  --color-chart-4: var(--wa);
 
-  --color-chart-3: var(--chart-3);
+  --color-chart-3: var(--su);
 
-  --color-chart-2: var(--chart-2);
+  --color-chart-2: var(--s);
 
-  --color-chart-1: var(--chart-1);
+  --color-chart-1: var(--p);
 
-  --color-ring: var(--ring);
+  --color-ring: var(--n);
 
-  --color-input: var(--input);
+  --color-input: var(--color-base-300);
 
-  --color-border: var(--border);
+  --color-border: var(--color-base-300);
 
-  --color-destructive: var(--destructive);
+  --color-destructive: var(--er);
 
-  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-foreground: var(--ac);
 
-  --color-accent: var(--accent);
+  --color-accent: var(--a);
 
-  --color-muted-foreground: var(--muted-foreground);
+  --color-muted-foreground: var(--nc);
 
-  --color-muted: var(--muted);
+  --color-muted: var(--b2);
 
-  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-foreground: var(--sc);
 
-  --color-secondary: var(--secondary);
+  --color-secondary: var(--s);
 
-  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-foreground: var(--pc);
 
-  --color-primary: var(--primary);
+  --color-primary: var(--p);
 
-  --color-popover-foreground: var(--popover-foreground);
+  --color-popover-foreground: var(--color-base-content);
 
-  --color-popover: var(--popover);
+  --color-popover: var(--color-base-100);
 
-  --color-card-foreground: var(--card-foreground);
+  --color-card-foreground: var(--color-base-content);
 
-  --color-card: var(--card);
+  --color-card: var(--color-base-100);
 
   @keyframes scrollIndicatorAnimation {
     0% {
@@ -152,76 +278,18 @@
   color: white;
 }
 
-:root {
-  --radius: 0.625rem;
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+/* [data-theme='dark'] {
+  --bg-opacity: rgba(29, 29, 31, 0.72);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
+[data-theme='dark'] ::selection {
+  background-color: theme(colors.accssddent/0.3);
+} */
 
 @layer base {
+  :where(:root, [data-theme]) {
+    accent-color: var(--a, #33a6b8);
+  }
   * {
     @apply border-border outline-ring/50;
   }

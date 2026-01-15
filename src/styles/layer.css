@@ -1,0 +1,73 @@
+@tailwind utilities;
+
+@layer components {
+  .shuying-timeline {
+    & > li::before {
+      content: '';
+      border-left: 2px solid theme(colors.accent / 1);
+      position: absolute;
+      left: -17px;
+      bottom: 0;
+    }
+
+    & > li {
+      position: relative;
+      list-style-type: none;
+
+      line-height: 1.6;
+      padding: 3px 0;
+      margin: 0 0 0 1rem;
+    }
+
+    & > li:not(:first-child):not(:last-child)::before {
+      top: 0;
+    }
+
+    & > li:first-child::before {
+      top: 50%;
+    }
+
+    & > li:last-child::before {
+      bottom: 50%;
+      top: 0;
+    }
+
+    & > li::after {
+      content: '';
+      left: calc(-1rem - 4px);
+      top: 50%;
+      transform: translateY(-50%);
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      position: absolute;
+      background-color: theme(colors.accent);
+    }
+  }
+
+  .shuying-recommond-title {
+    transition: opacity 0.5s cubic-bezier(0.37, 0, 0.63, 1);
+
+    &::before {
+      margin-bottom: 1.875rem;
+      display: block;
+      height: 1px;
+      width: 3.75rem;
+      background-color: white;
+      content: '';
+    }
+
+    &::after {
+      margin-top: 1.875rem;
+      display: block;
+      height: 1px;
+      width: 3.75rem;
+      background-color: white;
+      content: '';
+    }
+  }
+
+  .shuying-recommend-cont {
+    transition: all 0.5s cubic-bezier(0.37, 0, 0.63, 1);
+  }
+}

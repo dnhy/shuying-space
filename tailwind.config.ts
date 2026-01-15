@@ -1,17 +1,16 @@
-import type { Config } from "tailwindcss";
-import { getIconCollections, iconsPlugin } from '@egoist/tailwindcss-icons'
-
+import type { Config } from 'tailwindcss';
+import { getIconCollections, iconsPlugin } from '@egoist/tailwindcss-icons';
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   plugins: [
     iconsPlugin({
       collections: {
-        ...getIconCollections(["mingcute"]),
+        ...getIconCollections(['mingcute']),
       },
     }),
   ],
@@ -54,4 +53,5 @@ const config: Config = {
   //   }),
   // ],
 };
+
 export default config;

@@ -1,27 +1,26 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { clsxm } from "@/lib/helper";
-import { useRef, useState } from "react";
-import AncientStyleMenuButton from "./components/AncientStyleMenuButton";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
+import Link from 'next/link';
+import Image from 'next/image';
+import { clsxm } from '@/lib/helper';
+import { Fragment, useRef, useState } from 'react';
+import AncientStyleMenuButton from './components/AncientStyleMenuButton';
+import * as ScrollArea from '@radix-ui/react-scroll-area';
 
 export default function HomePage() {
   const [currIdx, setCurrIdx] = useState(0);
   const [showMask, setShowMask] = useState(true);
   const [imgs, setImgs] = useState([
-    "https://www.sanga-ryokan.com/news/wp-content/uploads/2026/01/9b095180-b254-4c7d-9078-5f96dfc35a4b.jpg",
-    "https://www.sanga-ryokan.com/news/wp-content/uploads/2025/12/IMG_4515-1536x2048.jpg",
-    "https://www.sanga-ryokan.com/news/wp-content/uploads/2024/06/%E6%AD%A3%E6%9C%88%E4%BA%88%E7%B4%84.jpg",
+    'https://www.sanga-ryokan.com/news/wp-content/uploads/2026/01/9b095180-b254-4c7d-9078-5f96dfc35a4b.jpg',
+    'https://www.sanga-ryokan.com/news/wp-content/uploads/2025/12/IMG_4515-1536x2048.jpg',
+    'https://www.sanga-ryokan.com/news/wp-content/uploads/2024/06/%E6%AD%A3%E6%9C%88%E4%BA%88%E7%B4%84.jpg',
   ]);
-
   const [menuList, setMenuList] = useState<MenuList>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const currIdxRef = useRef(0);
-  const movies = ["/home/videos/01.mp4", "/home/videos/onsen.mp4"];
+  const movies = ['/home/videos/01.mp4', '/home/videos/onsen.mp4'];
 
   const updateIndex = (newIdx: number) => {
     if (newIdx >= 0 && newIdx <= 4 && newIdx !== currIdxRef.current) {
@@ -47,20 +46,20 @@ export default function HomePage() {
   const schemaComps = [RecommendToday, RecentArticleGroups];
 
   return (
-    <div className="h-dvh w-full flex flex-col bg-white overflow-hidden">
+    <div className="flex h-dvh w-full flex-col overflow-hidden bg-white">
       {/* <header className="bg-gray-800 text-white p-4">navbar</header> */}
-      <div className="h-full flex flex-1 min-h-0">
+      <div className="flex h-full min-h-0 flex-1">
         <aside
           className={clsxm(
-            "w-32  p-4  border-amber-200",
-            isOpen ? "border-r" : ""
+            'w-32 border-amber-200 p-4',
+            isOpen ? 'border-r' : '',
           )}
         >
           <Link
             href="/"
             className={clsxm(
-              "border-2  rounded-sm border-gray-100 inline-block transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)] translate-x-4 translate-y-2",
-              showMask ? "opacity-0" : "opacity-100"
+              'inline-block translate-x-4 translate-y-2 rounded-sm border-2 border-gray-100 transition-all duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)]',
+              showMask ? 'opacity-0' : 'opacity-100',
             )}
           >
             <Image
@@ -74,23 +73,23 @@ export default function HomePage() {
           </Link>
 
           {!isOpen && (
-            <ul className="mt-72 h-40 flex flex-col justify-start pt-5 z-50">
+            <ul className="z-50 mt-72 flex h-40 flex-col justify-start pt-5">
               {Array.from({ length: 5 }).map((item, index) => (
                 <li
                   key={index}
-                  className="w-10 flex justify-center cursor-pointer group mb-1 mx-auto"
+                  className="group mx-auto mb-1 flex w-10 cursor-pointer justify-center"
                   onClick={() => {
                     updateIndex(index);
                   }}
                 >
                   <div
                     className={clsxm(
-                      "w-px h-5 bg-gray-300 rounded-xs",
-                      "transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
-                      "group-hover:w-2",
+                      'h-5 w-px rounded-xs bg-gray-300',
+                      'transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]',
+                      'group-hover:w-2',
                       currIdx === index
-                        ? "bg-black h-15 group-hover:w-px duration-1000"
-                        : ""
+                        ? 'h-15 bg-black duration-1000 group-hover:w-px'
+                        : '',
                     )}
                   />
                 </li>
@@ -99,7 +98,7 @@ export default function HomePage() {
           )}
         </aside>
         <main
-          className="flex-1 my-10 relative text-white overflow-hidden rounded-lg"
+          className="relative my-10 flex-1 overflow-hidden rounded-lg text-white"
           onWheel={(e) => {
             if (isAnimating) {
               return;
@@ -116,14 +115,14 @@ export default function HomePage() {
         >
           <div
             className={clsxm(
-              "bg-white/90 w-full h-full absolute top-0 left-0 z-7",
-              "transition-transform duration-1000 ease-in-out",
-              showMask ? "translate-y-0" : "-translate-y-full"
+              'absolute top-0 left-0 z-7 h-full w-full bg-white/90',
+              'transition-transform duration-1000 ease-in-out',
+              showMask ? 'translate-y-0' : '-translate-y-full',
             )}
           >
             <Link
               href="/"
-              className="inline-block absolute top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2"
+              className="absolute top-1/2 left-1/2 inline-block -translate-x-1/2 -translate-y-1/2"
             >
               <Image
                 src="/logo/logo-shuying-black.svg"
@@ -146,8 +145,8 @@ export default function HomePage() {
                 zIndex={2 - index}
                 scrollPosition={
                   index === 0
-                    ? { top: "0", middle: "0", bottom: "-1179" }
-                    : { top: "589.5", middle: "0", bottom: "-1179" }
+                    ? { top: '0', middle: '0', bottom: '-1179' }
+                    : { top: '589.5', middle: '0', bottom: '-1179' }
                 }
                 Schema={component}
               />
@@ -165,12 +164,12 @@ export default function HomePage() {
           )} */}
         <aside
           className={clsxm(
-            "w-32 flex flex-col justify-between items-center py-5 border-amber-200",
-            isOpen ? "border-l" : ""
+            'flex w-32 flex-col items-center justify-between border-amber-200 py-5',
+            isOpen ? 'border-l' : '',
           )}
         >
           <AncientStyleMenuButton isOpen={isOpen} onBtnToggle={setIsOpen} />
-          <div className={clsxm("flex flex-col items-center gap-6 pb-8")}>
+          <div className={clsxm('flex flex-col items-center gap-6 pb-8')}>
             {/* <div
                 className={clsxm(
                   "font-shufa font-bold text-lg text-black",
@@ -186,18 +185,18 @@ export default function HomePage() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black hover:text-gray-600 transition-colors duration-300"
+              className="text-black transition-colors duration-300 hover:text-gray-600"
             >
-              <GithubIcon className="w-4 h-4" />
+              <GithubIcon className="h-4 w-4" />
             </a>
 
             <a
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black hover:text-gray-600 transition-colors duration-300"
+              className="text-black transition-colors duration-300 hover:text-gray-600"
             >
-              <TwitterIcon className="w-4 h-4" />
+              <TwitterIcon className="h-4 w-4" />
             </a>
           </div>
         </aside>
@@ -205,16 +204,16 @@ export default function HomePage() {
 
       <div
         className={clsxm(
-          "w-[calc(100%-256px)] ml-32 h-screen flex fixed top-0 bg-white z-55",
-          "transition-opacity duration-600 ease-[cubic-bezier(0.65,0,0.35,1)] overflow-hidden",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          'fixed top-0 z-55 ml-32 flex h-screen w-[calc(100%-256px)] bg-white',
+          'overflow-hidden transition-opacity duration-600 ease-[cubic-bezier(0.65,0,0.35,1)]',
+          isOpen ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
         <ImageList imgs={imgs} />
-        <div className="flex flex-col flex-1 h-full py-20 min-w-0 pr-20">
+        <div className="flex h-full min-w-0 flex-1 flex-col py-20 pr-20">
           <VerticalMenu menuList={menuList} />
           <div
-            className="w-[calc(100%-130px)] h-2 mt-5 mb-10 mx-auto bg-contain opacity-70 shrink-0"
+            className="mx-auto mt-5 mb-10 h-2 w-[calc(100%-130px)] shrink-0 bg-contain opacity-70"
             style={{ backgroundImage: 'url("/svg/icn_rhombus.svg")' }}
           ></div>
           <BottomInfo data={undefined} />
@@ -245,7 +244,7 @@ const PageScrollItem: React.FC<
   movie,
   currIdx,
   markIdx = 1,
-  scrollPosition = { top: "589.5", middle: "0", bottom: "-1179" },
+  scrollPosition = { top: '589.5', middle: '0', bottom: '-1179' },
   zIndex,
   Schema,
 }) => {
@@ -254,22 +253,22 @@ const PageScrollItem: React.FC<
     currIdx < markIdx
       ? `translateY(${scrollPosition.top}px)`
       : currIdx > markIdx
-      ? `translateY(${scrollPosition.bottom}px)`
-      : `translateY(${scrollPosition.middle}px)`;
+        ? `translateY(${scrollPosition.bottom}px)`
+        : `translateY(${scrollPosition.middle}px)`;
 
   return (
     <article
       className={clsxm(
-        "prose max-w-none w-full h-full",
-        "transition-transform duration-1000 ease-in-out",
-        "absolute top-0 left-0"
+        'prose h-full w-full max-w-none',
+        'transition-transform duration-1000 ease-in-out',
+        'absolute top-0 left-0',
       )}
       style={{ zIndex, transform: transformValue }}
     >
-      <div className="w-full h-full rounded-lg bg-black ">
+      <div className="h-full w-full rounded-lg bg-black">
         <Schema showMask={showMask} />
         <video
-          className="w-full h-full object-cover rounded-lg opacity-80 z-0"
+          className="z-0 h-full w-full rounded-lg object-cover opacity-80"
           autoPlay
           muted
           loop
@@ -297,30 +296,28 @@ const RecommendToday: SchemaCompType = ({ showMask }) => {
     <>
       <h1
         className={clsxm(
-          "writing-vertical-rl",
-          "before:content-[''] before:w-15 before:h-px before:block before:bg-white before:mb-7.5",
-          "after:content-[''] after:w-15 after:h-px after:block after:bg-white after:mt-7.5",
-          "text-4xl font-shufa font-black absolute top-[calc((40px+4vw)*1.5)] right-[calc((40px+4vw)*2)] tracking-[20px] text-center flex items-center z-10",
-          "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
-          showMask ? "opacity-100  delay-1000" : "opacity-0"
+          'shuying-recommond-title',
+          'writing-vertical-rl',
+          'font-shufa absolute top-[calc((40px+4vw)*1.5)] right-[calc((40px+4vw)*2)] z-10 flex items-center text-center text-4xl font-black tracking-[20px]',
+          showMask ? 'opacity-100 delay-1000' : 'opacity-0',
         )}
       >
         当年红月
       </h1>
       <div
         className={clsxm(
-          "writing-vertical-rl h-80 absolute z-10 bottom-1/9 left-1/8 leading-9  tracking-wide",
-          showMask ? "" : "pointer-events-none"
+          'writing-vertical-rl absolute bottom-1/9 left-1/8 z-10 h-80 leading-9 tracking-wide',
+          showMask ? '' : 'pointer-events-none',
         )}
       >
         <p
           className={clsxm(
-            "writing-vertical-rl",
-            "text-2xl tracking-wide ml-20 leading-12 font-xingshu font-extrabold",
-            "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
+            'shuying-recommend-cont',
+            'writing-vertical-rl',
+            'font-xingshu ml-20 text-2xl leading-12 font-extrabold tracking-wide',
             showMask
-              ? "opacity-100 translate-x-0 delay-1300"
-              : "opacity-0 translate-x-8 delay-0"
+              ? 'translate-x-0 opacity-100 delay-1300'
+              : 'translate-x-8 opacity-0 delay-0',
           )}
         >
           疏影横渡水清浅 <br />
@@ -328,11 +325,11 @@ const RecommendToday: SchemaCompType = ({ showMask }) => {
         </p>
         <p
           className={clsxm(
-            "writing-vertical-rl font-shoujin font-bold text-lg leading-10",
-            "transition-all duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
+            'shuying-recommend-cont',
+            'writing-vertical-rl font-shoujin text-lg leading-10 font-bold',
             showMask
-              ? "opacity-100 translate-x-0 delay-1200"
-              : "opacity-0 translate-x-8 delay-0"
+              ? 'translate-x-0 opacity-100 delay-1200'
+              : 'translate-x-8 opacity-0 delay-0',
           )}
         >
           十五年中，这古园的形体被不能理解它的人肆意雕琢，幸好有些东西是任谁也不能改变它的。譬如祭坛石门中的落日，寂静的光辉平铺的一刻，地上的每一个坎坷都被映照得灿烂；譬如在园中最为落寞的时间，一群雨燕便出来高歌，把天地都叫喊得苍凉；譬如冬天雪地上孩子的脚印，总让人猜想他们是谁，曾在哪儿做过些什么，然后又都到哪儿去了；譬如那些苍黑的古柏，你忧郁的时候它们镇静地站在那儿，你欣喜的时候它们依然镇静地站在那儿，它们没日没夜地站在那儿，从你没有出生一直站到这个世界上又没了你的时候；譬如暴雨骤临园中，激起一阵阵灼烈而清纯的草木和泥土的气味，让人想起无数个夏天的事件；譬如秋风忽至，再有一场早霜，落叶或飘摇歌舞或坦然安卧，满园中播散着熨
@@ -340,13 +337,13 @@ const RecommendToday: SchemaCompType = ({ showMask }) => {
         </p>
         <div
           className={clsxm(
-            "writing-vertical-rl font-shufa font-bold text-lg",
-            "border-2 text-center mr-20  tracking-[4px] rounded-sm",
-            "transition-opacity duration-1500 ease-[cubic-bezier(0.37, 0, 0.63, 1)]",
-            "hover:bg-black hover:text-white",
+            'shuying-recommend-cont',
+            'writing-vertical-rl font-shufa text-lg font-bold',
+            'mr-20 rounded-sm border-2 text-center tracking-[4px]',
+            'hover:bg-black hover:text-white',
             showMask
-              ? "opacity-100 translate-x-0 delay-2000"
-              : "opacity-0 translate-x-0 delay-0"
+              ? 'translate-x-0 opacity-100 delay-2000'
+              : 'translate-x-0 opacity-0 delay-0',
           )}
         >
           了解详情
@@ -356,34 +353,54 @@ const RecommendToday: SchemaCompType = ({ showMask }) => {
   );
 };
 
+const RelativeTime = (params) => {
+  return <Fragment>3 days</Fragment>;
+};
+
 const RecentArticleGroups: SchemaCompType = () => {
   return (
     <>
-      <div className="absolute ">
-        <div>
-          <section>
-            <h2></h2>
-            <ul>
-              <li>111</li>
-              <li>111</li>
-              <li>111</li>
-            </ul>
-            <a href="">
-              <i className="i-mingcute-arrow-right-circle-line" />
-              <span className="ml-2">还有更多</span>
-            </a>
+      <div className="absolute z-10 w-full text-white opacity-100">
+        <div className="p-20">
+          <section className="w-full">
+            <div className="w-1/2">
+              <h2 className="text-2xl leading-loose font-medium">
+                最近更新的文稿
+              </h2>
+              <ul className="shuying-timeline mt-4">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <li className="flex justify-between" key={idx}>
+                    <Link prefetch href={'1111'}>
+                      {idx + 1}
+                    </Link>
+
+                    <span className="ml-2 shrink-0 self-end text-xs opacity-70">
+                      <RelativeTime />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href=""
+                className="hover:text-accent flex items-center justify-end"
+              >
+                <i className="i-mingcute-arrow-right-circle-line" />
+                <span className="ml-2">还有更多</span>
+              </Link>
+              ``
+            </div>
             <hr />
-            <h2></h2>
+            <h2>最近更新的手记</h2>
             <ul>
               <li>333</li>
               <li>2323</li>
               <li>weew</li>
               <li>233223</li>
             </ul>
-            <a href="">
+            <Link href="">
               <i className="i-mingcute-arrow-right-circle-line" />
               <span className="ml-2">还有更多</span>
-            </a>
+            </Link>
           </section>
         </div>
         <div></div>
@@ -398,33 +415,33 @@ const ImageList: React.FC<
   }
 > = ({ imgs }) => {
   return (
-    <ScrollArea.Root className="min-w-[300px] h-full overflow-hidden mx-60">
-      <ScrollArea.Viewport className="w-full h-full">
+    <ScrollArea.Root className="mx-60 h-full min-w-[300px] overflow-hidden">
+      <ScrollArea.Viewport className="h-full w-full">
         {imgs.map((v, idx) => (
           <div
             key={v}
             className={clsxm(
-              "w-full mb-10 text-black",
-              idx === 0 ? "mt-28" : ""
+              'mb-10 w-full text-black',
+              idx === 0 ? 'mt-28' : '',
             )}
           >
             <Image
               src={v}
-              alt={""}
+              alt={''}
               width={0}
               height={0}
               sizes="11vw"
-              className="w-full h-auto"
+              className="h-auto w-full"
             />
             <dl className="mt-4">
               <dt className="text-sm text-gray-500">2026.11</dt>
               <dd className="text-lg font-bold">打的千瓦时</dd>
             </dl>
-            <h2 className="text-xl font-serif mt-2">萨卡斯塞萨家私</h2>
+            <h2 className="mt-2 font-serif text-xl">萨卡斯塞萨家私</h2>
 
             {idx < imgs.length - 1 && (
               <div
-                className="w-24 h-2 my-10 mx-auto bg-contain opacity-70"
+                className="mx-auto my-10 h-2 w-24 bg-contain opacity-70"
                 style={{ backgroundImage: 'url("/svg/icn_rhombus.svg")' }}
               ></div>
             )}
@@ -446,8 +463,8 @@ const ImageList: React.FC<
 
 type MenuList = MenuItem[];
 type MenuItem = {
-  id: "";
-  name: "";
+  id: '';
+  name: '';
 };
 
 const VerticalMenu: React.FC<
@@ -457,25 +474,25 @@ const VerticalMenu: React.FC<
 > = ({ menuList }) => {
   return (
     <ScrollArea.Root
-      className="flex-1 w-full overflow-hidden relative min-h-0 text-black"
+      className="relative min-h-0 w-full flex-1 overflow-hidden text-black"
       type="hover"
       dir="rtl"
       scrollHideDelay={200}
     >
-      <ScrollArea.Viewport className="w-full h-full [&>div]:block! [&>div]:h-full">
+      <ScrollArea.Viewport className="h-full w-full [&>div]:block! [&>div]:h-full">
         <ul className="flex h-full w-max px-4">
           {Array.from({ length: 8 }).map((_, i) => (
             <li
               key={i}
               className={clsxm(
-                "writing-vertical-rl flex flex-row-reverse justify-between items-center w-43 border-r border-gray-300/60 p-6 shrink-0 h-full min-h-0 transition-colors duration-500 hover:bg-stone-50 cursor-pointer group",
-                i === 7 ? "border-l" : ""
+                'writing-vertical-rl group flex h-full min-h-0 w-43 shrink-0 cursor-pointer flex-row-reverse items-center justify-between border-r border-gray-300/60 p-6 transition-colors duration-500 hover:bg-stone-50',
+                i === 7 ? 'border-l' : '',
               )}
             >
-              <div className="font-serif text-xl tracking-[0.2em] text-stone-800 group-hover:text-black transition-colors">
+              <div className="font-serif text-xl tracking-[0.2em] text-stone-800 transition-colors group-hover:text-black">
                 啊阿萨斯
               </div>
-              <div className="text-xs text-stone-400 tracking-widest group-hover:text-stone-600 transition-colors">
+              <div className="text-xs tracking-widest text-stone-400 transition-colors group-hover:text-stone-600">
                 DESCRIPTION
               </div>
             </li>
@@ -485,10 +502,10 @@ const VerticalMenu: React.FC<
       <ScrollArea.Scrollbar
         orientation="horizontal"
         className={clsxm(
-          "flex select-none touch-none p-0.5 bg-stone-100/50 transition-colors duration-160 ease-out hover:bg-stone-200 h-2.5 flex-col absolute bottom-0 left-0 right-0 z-10"
+          'absolute right-0 bottom-0 left-0 z-10 flex h-2.5 touch-none flex-col bg-stone-100/50 p-0.5 transition-colors duration-160 ease-out select-none hover:bg-stone-200',
         )}
       >
-        <ScrollArea.Thumb className="flex-1 bg-stone-400/50 rounded-[10px] relative" />
+        <ScrollArea.Thumb className="relative flex-1 rounded-[10px] bg-stone-400/50" />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   );
@@ -506,18 +523,18 @@ const BottomInfo: React.FC<
         <li>在线商店</li>
         <li>一篇日记</li>
       </ul>
-      <div className="writing-vertical-rl ">
+      <div className="writing-vertical-rl">
         江苏省苏州市
         <br />
         常熟市
       </div>
-      <dl className="writing-vertical-rl ">
+      <dl className="writing-vertical-rl">
         <dt>电话</dt>
         <dd>1212112</dd>
         <dt>邮箱</dt>
         <dd>1212xxx@112</dd>
       </dl>
-      <span className="writing-vertical-rl border-y text-center p-3">
+      <span className="writing-vertical-rl border-y p-3 text-center">
         <a href="">关于xxxxxxx</a>
       </span>
     </div>

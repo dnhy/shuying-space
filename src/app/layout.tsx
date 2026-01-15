@@ -1,37 +1,63 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Ma_Shan_Zheng,
-  ZCOOL_QingKe_HuangYou,
-  ZCOOL_XiaoWei,
-} from "next/font/google";
+import localFont from "next/font/local";
 import "../styles/index.css";
 
-const geistSans = Geist({
+const geistSans = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Geist-VariableFont_wght.ttf",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: [
+    {
+      path: "../../public/fonts/GeistMono-VariableFont_wght.ttf",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
-const maShanZheng = Ma_Shan_Zheng({
-  weight: "400",
+const maShanZheng = localFont({
+  src: [
+    {
+      path: "../../public/fonts/MaShanZheng-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
   variable: "--font-ma-shan-zheng",
   preload: false,
 });
 
-const zcoolQingKeHuangYou = ZCOOL_QingKe_HuangYou({
-  weight: "400",
+const zcoolQingKeHuangYou = localFont({
+  src: [
+    {
+      path: "../../public/fonts/ZCOOLQingKeHuangYou-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
   variable: "--font-zcool-qingke-huangyou",
   preload: false,
 });
 
-const zcoolXiaoWei = ZCOOL_XiaoWei({
-  weight: "400",
+const zcoolXiaoWei = localFont({
+  src: [
+    {
+      path: "../../public/fonts/ZCOOLXiaoWei-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
   variable: "--font-zcool-xiaowei",
   preload: false,
 });
