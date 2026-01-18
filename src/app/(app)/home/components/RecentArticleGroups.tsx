@@ -59,7 +59,7 @@ export const RecentArticleGroups = () => {
 
 
 
-const RelativeTime = (params) => {
+const RelativeTime = () => {
   return <Fragment>3 days</Fragment>;
 };
 

@@ -228,7 +228,11 @@ export default function HomePage() {
     </div>
   );
 }
-const TwoColumnLayout = ({ children }) => {
+const TwoColumnLayout = ({ children }: {
+  children:
+  | [React.ReactNode, React.ReactNode]
+  | [React.ReactNode, React.ReactNode, React.ReactNode]
+}) => {
   return (
     <div className="absolute z-10 lg:flex lg:flex-row size-full text-white opacity-100">
       {children}
@@ -480,7 +484,7 @@ const VerticalMenu: React.FC<
 
 const BottomInfo: React.FC<
   React.PropsWithChildren & {
-    data: any;
+    data: unknown;
   }
 > = ({ data }) => {
   return (
