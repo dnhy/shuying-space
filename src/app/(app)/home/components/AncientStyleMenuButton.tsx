@@ -152,7 +152,6 @@ const AncientStyleMenuButton: React.FC<
                 style={{ transformOrigin: '100px 100px' }}
               >
                 <svg
-                  t="1767461702966"
                   className="icon"
                   viewBox="0 0 1024 1024"
                   version="1.1"
