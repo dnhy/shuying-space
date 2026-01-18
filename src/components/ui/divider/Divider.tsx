@@ -34,7 +34,7 @@ export const DividerVertical: FC<
   );
 };
 
-export const BreadcrumbDivider: React.Component = ({ className }) => {
+export const BreadcrumbDivider: Component = ({ className }) => {
   return (
     <svg
       width="24"
