@@ -119,7 +119,9 @@
   --er: #ff453a;
 }
 /* @import "tw-animate-css"; */
-@custom-variant dark (&:is(.dark *, [data-theme='dark'] *));
+/* @custom-variant dark (&:is(.dark *, [data-theme='dark'] *)); */
+@custom-variant dark (&:where([data-theme="dark"] *));
+
 /* @plugin "@egoist/tailwindcss-icons"; */
 
 @font-face {

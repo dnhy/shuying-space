@@ -5,7 +5,10 @@ import Image from 'next/image';
 import { clsxm } from '@/lib/helper';
 import { Fragment, useRef, useState } from 'react';
 import AncientStyleMenuButton from './components/AncientStyleMenuButton';
-import * as ScrollArea from '@radix-ui/react-scroll-area';
+import * as ScrollAreaBase from '@radix-ui/react-scroll-area';
+import { RecentArticleGroups } from './components/RecentArticleGroups';
+import { RecentActivity } from './components/RecentActivity';
+
 
 export default function HomePage() {
   const [currIdx, setCurrIdx] = useState(0);
@@ -43,7 +46,8 @@ export default function HomePage() {
     }, 1000); // 与CSS动画时间一致
   };
 
-  const schemaComps = [RecommendToday, RecentArticleGroups];
+
+  const schemaComps = [RecommendToday, RecentComps];
 
   return (
     <div className="flex h-dvh w-full flex-col overflow-hidden bg-white">
@@ -224,6 +228,24 @@ export default function HomePage() {
     </div>
   );
 }
+const TwoColumnLayout = ({ children }) => {
+  return (
+    <div className="absolute z-10 lg:flex lg:flex-row size-full text-white opacity-100">
+      {children}
+    </div>
+  )
+
+}
+
+const RecentComps = () => {
+  return (
+    <TwoColumnLayout>
+      <RecentArticleGroups />
+      <RecentActivity />
+    </TwoColumnLayout>
+  )
+
+}
 
 type ScrollPosition = {
   top: string;
@@ -248,44 +270,44 @@ const PageScrollItem: React.FC<
   zIndex,
   Schema,
 }) => {
-  const showMask = currIdx === markIdx;
-  const transformValue =
-    currIdx < markIdx
-      ? `translateY(${scrollPosition.top}px)`
-      : currIdx > markIdx
-        ? `translateY(${scrollPosition.bottom}px)`
-        : `translateY(${scrollPosition.middle}px)`;
+    const showMask = currIdx === markIdx;
+    const transformValue =
+      currIdx < markIdx
+        ? `translateY(${scrollPosition.top}px)`
+        : currIdx > markIdx
+          ? `translateY(${scrollPosition.bottom}px)`
+          : `translateY(${scrollPosition.middle}px)`;
 
-  return (
-    <article
-      className={clsxm(
-        'prose h-full w-full max-w-none',
-        'transition-transform duration-1000 ease-in-out',
-        'absolute top-0 left-0',
-      )}
-      style={{ zIndex, transform: transformValue }}
-    >
-      <div className="h-full w-full rounded-lg bg-black">
-        <Schema showMask={showMask} />
-        <video
-          className="z-0 h-full w-full rounded-lg object-cover opacity-80"
-          autoPlay
-          muted
-          loop
-          playsInline // iOS必须！
-          preload="auto" // 或 "metadata"
-        >
-          <source src={movie} type="video/mp4" />
-          {/* <source src="/videos/background.webm" type="video/webm" /> */}
-          {/* 备用图片 */}
-          {/* <img src="/images/fallback.jpg" alt="背景" /> */}
-        </video>
-      </div>
-    </article>
-  );
-};
+    return (
+      <article
+        className={clsxm(
+          'prose h-full w-full max-w-none',
+          'transition-transform duration-1000 ease-in-out',
+          'absolute top-0 left-0',
+        )}
+        style={{ zIndex, transform: transformValue }}
+      >
+        <div className="h-full w-full rounded-lg bg-black">
+          <Schema showMask={showMask} />
+          <video
+            className="z-0 h-full w-full rounded-lg object-cover opacity-80"
+            autoPlay
+            muted
+            loop
+            playsInline // iOS必须！
+            preload="auto" // 或 "metadata"
+          >
+            <source src={movie} type="video/mp4" />
+            {/* <source src="/videos/background.webm" type="video/webm" /> */}
+            {/* 备用图片 */}
+            {/* <img src="/images/fallback.jpg" alt="背景" /> */}
+          </video>
+        </div>
+      </article>
+    );
+  };
 
-type SchemaCompType = React.FC<
+export type SchemaCompType = React.FC<
   React.PropsWithChildren & {
     showMask: boolean;
   }
@@ -353,61 +375,6 @@ const RecommendToday: SchemaCompType = ({ showMask }) => {
   );
 };
 
-const RelativeTime = (params) => {
-  return <Fragment>3 days</Fragment>;
-};
-
-const RecentArticleGroups: SchemaCompType = () => {
-  return (
-    <>
-      <div className="absolute z-10 w-full text-white opacity-100">
-        <div className="p-20">
-          <section className="w-full">
-            <div className="w-1/2">
-              <h2 className="text-2xl leading-loose font-medium">
-                最近更新的文稿
-              </h2>
-              <ul className="shuying-timeline mt-4">
-                {Array.from({ length: 5 }).map((_, idx) => (
-                  <li className="flex justify-between" key={idx}>
-                    <Link prefetch href={'1111'}>
-                      {idx + 1}
-                    </Link>
-
-                    <span className="ml-2 shrink-0 self-end text-xs opacity-70">
-                      <RelativeTime />
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href=""
-                className="hover:text-accent flex items-center justify-end"
-              >
-                <i className="i-mingcute-arrow-right-circle-line" />
-                <span className="ml-2">还有更多</span>
-              </Link>
-              ``
-            </div>
-            <hr />
-            <h2>最近更新的手记</h2>
-            <ul>
-              <li>333</li>
-              <li>2323</li>
-              <li>weew</li>
-              <li>233223</li>
-            </ul>
-            <Link href="">
-              <i className="i-mingcute-arrow-right-circle-line" />
-              <span className="ml-2">还有更多</span>
-            </Link>
-          </section>
-        </div>
-        <div></div>
-      </div>
-    </>
-  );
-};
 
 const ImageList: React.FC<
   React.PropsWithChildren & {
@@ -415,8 +382,8 @@ const ImageList: React.FC<
   }
 > = ({ imgs }) => {
   return (
-    <ScrollArea.Root className="mx-60 h-full min-w-[300px] overflow-hidden">
-      <ScrollArea.Viewport className="h-full w-full">
+    <ScrollAreaBase.Root className="mx-60 h-full min-w-[300px] overflow-hidden">
+      <ScrollAreaBase.Viewport className="h-full w-full">
         {imgs.map((v, idx) => (
           <div
             key={v}
@@ -447,17 +414,17 @@ const ImageList: React.FC<
             )}
           </div>
         ))}
-      </ScrollArea.Viewport>
+      </ScrollAreaBase.Viewport>
       {/* <ScrollArea.Scrollbar
         orientation="vertical"
         className="flex select-none touch-none p-0.5 bg-gray-100 transition-colors duration-[160ms] ease-out hover:bg-gray-200 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
       >
         <ScrollArea.Thumb className="flex-1 bg-gray-400 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
       </ScrollArea.Scrollbar> */}
-      <ScrollArea.Scrollbar>
-        <ScrollArea.Thumb />
-      </ScrollArea.Scrollbar>
-    </ScrollArea.Root>
+      <ScrollAreaBase.Scrollbar>
+        <ScrollAreaBase.Thumb />
+      </ScrollAreaBase.Scrollbar>
+    </ScrollAreaBase.Root>
   );
 };
 
@@ -473,13 +440,13 @@ const VerticalMenu: React.FC<
   }
 > = ({ menuList }) => {
   return (
-    <ScrollArea.Root
+    <ScrollAreaBase.Root
       className="relative min-h-0 w-full flex-1 overflow-hidden text-black"
       type="hover"
       dir="rtl"
       scrollHideDelay={200}
     >
-      <ScrollArea.Viewport className="h-full w-full [&>div]:block! [&>div]:h-full">
+      <ScrollAreaBase.Viewport className="h-full w-full [&>div]:block! [&>div]:h-full">
         <ul className="flex h-full w-max px-4">
           {Array.from({ length: 8 }).map((_, i) => (
             <li
@@ -498,16 +465,16 @@ const VerticalMenu: React.FC<
             </li>
           ))}
         </ul>
-      </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar
+      </ScrollAreaBase.Viewport>
+      <ScrollAreaBase.Scrollbar
         orientation="horizontal"
         className={clsxm(
           'absolute right-0 bottom-0 left-0 z-10 flex h-2.5 touch-none flex-col bg-stone-100/50 p-0.5 transition-colors duration-160 ease-out select-none hover:bg-stone-200',
         )}
       >
-        <ScrollArea.Thumb className="relative flex-1 rounded-[10px] bg-stone-400/50" />
-      </ScrollArea.Scrollbar>
-    </ScrollArea.Root>
+        <ScrollAreaBase.Thumb className="relative flex-1 rounded-[10px] bg-stone-400/50" />
+      </ScrollAreaBase.Scrollbar>
+    </ScrollAreaBase.Root>
   );
 };
 

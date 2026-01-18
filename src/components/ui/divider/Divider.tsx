@@ -1,0 +1,54 @@
+import { clsxm } from '@/lib/helper';
+import type { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
+import * as React from 'react';
+
+export const Divider: FC<
+  DetailedHTMLProps<HTMLAttributes<HTMLHRElement>, HTMLHRElement>
+> = (props) => {
+  const { className, ...rest } = props;
+  return (
+    <hr
+      className={clsxm(
+        'bg-opacity-30! my-4 h-[0.5px] border-0 bg-gray-600',
+        className,
+      )}
+      {...rest}
+    />
+  );
+};
+
+export const DividerVertical: FC<
+  DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
+> = (props) => {
+  const { className, ...rest } = props;
+  return (
+    <span
+      className={clsxm(
+        'bg-opacity-30! mx-4 inline-block h-full w-[0.5px] bg-black text-transparent select-none',
+        className,
+      )}
+      {...rest}
+    >
+      w
+    </span>
+  );
+};
+
+export const BreadcrumbDivider: React.Component = ({ className }) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      color="currentColor"
+      shapeRendering="geometricPrecision"
+      viewBox="0 0 24 24"
+      className={className}
+    >
+      <path d="M16.88 3.549L7.12 20.451" />
+    </svg>
+  );
+};

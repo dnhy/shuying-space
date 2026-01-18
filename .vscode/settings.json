@@ -239,5 +239,8 @@
     "nolebase",
     "rollup",
     "vitest"
-  ]
+  ],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

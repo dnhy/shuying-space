@@ -70,4 +70,9 @@
   .shuying-recommend-cont {
     transition: all 0.5s cubic-bezier(0.37, 0, 0.63, 1);
   }
+
+  .center {
+    align-items: center;
+    justify-content: center;
+  }
 }
